@@ -46,7 +46,7 @@ Return Matrix ``Q``` with ``l`` orthonormal columns such that ``Q Q^H A`` approx
 - `M::AbstractArray{T}`(optional): the input matrix of size ``(m, n)``.
 
 # Examples
-```jloctest
+```jldoctest; setup=:(using Random, Lowranksvd; Random.seed!(1234))
 julia> A = rand(3,3);Q = get_approximate_basis(A,2)
 3×2 Matrix{Float64}:
  -0.737784  -0.199989
