@@ -58,7 +58,7 @@ julia> A = rand(3,3);Q = get_approximate_basis(A,2)
 - Nathan Halko, Per-Gunnar Martinsson, and Joel Tropp, Finding structure with randomness: probabilistic algorithms for constructing approximate matrix decompositions, arXiv:0909.4061 [math.NA; math.PR], 2009 (available at `arXiv <http://arxiv.org/abs/0909.4061>`_).
 """
 function get_approximate_basis(
-    A::AbstractArray{T}, l::Int64, niter::Int64 = 2, M::Union{AbstractArray{T}, Nothing} = nothing) where T
+    A::AbstractArray{T}, l::Int, niter::Int = 2, M::Union{AbstractArray{T}, Nothing} = nothing) where T
     m, n = size(A)
     Ω = rand(T, (n, l))
 
