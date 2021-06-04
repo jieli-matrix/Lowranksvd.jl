@@ -2,7 +2,7 @@ using Test, LinearAlgebra, Random, Lowranksvd
 using Lowranksvd: get_approximate_basis, _low_rank_svd, low_rank_svd
 Random.seed!(1234)
 
-function generate_low_rank_matrix(n::Int64, m::Int64, r::Int64, eltya)
+function generate_low_rank_matrix(n::Int, m::Int, r::Int, eltya)
     ϵ = 5*eps(real(eltya))
     U = rand(eltya,(n,r))
     V = rand(eltya,(m,r))
@@ -11,7 +11,7 @@ function generate_low_rank_matrix(n::Int64, m::Int64, r::Int64, eltya)
 end
 
 @testset "lowrank svd" begin
-    for eltya in (Float32, Float64, ComplexF32, ComplexF64)
+    for eltya in (Float32, ComplexF32)
         # set tolerance
         rtol = 5*eps(real(eltya))
         approx_rtol = 100*rtol

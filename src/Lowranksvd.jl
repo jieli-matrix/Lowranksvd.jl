@@ -35,14 +35,14 @@ function Base.show(io::IO, mime::MIME{Symbol("text/plain")}, F::LowRankSVD{<:Any
     show(io, mime, F.Vt)
 end
 """
-    get_approximate_basis(A, l::Int64; niter::Int64 = 2, M = nothing) -> Q
+    get_approximate_basis(A, l::Int; niter::Int = 2, M = nothing) -> Q
 
-Return Matrix ``Q``` with ``l`` orthonormal columns such that ``Q Q^H A`` approximates ``A``. If ``M`` is specified, then ``Q`` is such that ``Q Q^H (A - M)`` approximates ``A - M``.
+Return Matrix ``Q`` with ``l`` orthonormal columns such that ``Q Q^H A`` approximates ``A``. If ``M`` is specified, then ``Q`` is such that ``Q Q^H (A - M)`` approximates ``A - M``.
     
 # Arguments
 - `A::AbstractArray{T}`: the input matrix of size ``(m, n)``.
-- `l::Int64`: the dimension of subspace spanned by Q columns.
-- `niter::Int64`(optional): the number of subspace iterations to conduct; `niter` must be a nonnegative integer. In most cases, the default value 2 is more than enough.
+- `l::Int`: the dimension of subspace spanned by Q columns.
+- `niter::Int`(optional): the number of subspace iterations to conduct; `niter` must be a nonnegative integer. In most cases, the default value 2 is more than enough.
 - `M::AbstractArray{T}`(optional): the input matrix of size ``(m, n)``.
 
 # Examples
@@ -83,7 +83,7 @@ function get_approximate_basis(
     Matrix(F_j.Q)
 end
 
-function _low_rank_svd(A::AbstractArray{T}, l::Int64, niter::Int64 = 2, M::Union{AbstractArray{T}, Nothing} = nothing) where T
+function _low_rank_svd(A::AbstractArray{T}, l::Int, niter::Int = 2, M::Union{AbstractArray{T}, Nothing} = nothing) where T
     Q = get_approximate_basis(A, l, niter, M)
     if M === nothing
         B = Q' * A
@@ -97,14 +97,14 @@ function _low_rank_svd(A::AbstractArray{T}, l::Int64, niter::Int64 = 2, M::Union
 end
 
 """
-    low_rank_svd(A, l::Int64; niter::Int64 = 2, M = nothing) -> LowRankSVD
+    low_rank_svd(A, l::Int; niter::Int = 2, M = nothing) -> LowRankSVD
 
-Return the singular value decomposition LowRankSVD(U, S, Vt) of a matrix or a sparse matrix ``A`` such that ``A ≈ U diag(S) Vt``. In case ``M``` is given, then SVD is computed for the matrix ``A - M``.
+Return the singular value decomposition LowRankSVD(U, S, Vt) of a matrix or a sparse matrix ``A`` such that ``A ≈ U diag(S) Vt``. In case ``M`` is given, then SVD is computed for the matrix ``A - M``.
 
 # Arguments
 - `A::AbstractArray{T}`: the input matrix of size ``(m, n)``.
-- `l::Int64`: a slightly overestimated rank of A.
-- `niter::Int64`(optional): the number of subspace iterations to conduct; niter must be a nonnegative integer, and defaults to 2.
+- `l::Int`: a slightly overestimated rank of A.
+- `niter::Int`(optional): the number of subspace iterations to conduct; niter must be a nonnegative integer, and defaults to 2.
 - `M::AbstractArray{T}`(optional): the input matrix of size ``(m, n)``.
 
 # Examples
@@ -130,7 +130,7 @@ Vt factor:
 # References
 - Nathan Halko, Per-Gunnar Martinsson, and Joel Tropp, Finding structure with randomness: probabilistic algorithms for constructing approximate matrix decompositions, arXiv:0909.4061 [math.NA; math.PR], 2009 (available at `arXiv <http://arxiv.org/abs/0909.4061>`_).
 """
-function low_rank_svd(A::AbstractArray{T}, l::Int64, niter::Int64 = 2, M::Union{AbstractArray{T}, Nothing} = nothing) where T
+function low_rank_svd(A::AbstractArray{T}, l::Int, niter::Int = 2, M::Union{AbstractArray{T}, Nothing} = nothing) where T
     return _low_rank_svd(A, l, niter, M)
 end
 
