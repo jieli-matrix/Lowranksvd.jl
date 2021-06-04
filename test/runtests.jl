@@ -1,6 +1,7 @@
 using Lowranksvd
 using Test
+using LinearAlgebra
 
 @testset "Lowranksvd.jl" begin
-    # Write your tests here.
+    include("lowranksvd.jl")
 end
